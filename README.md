@@ -17,14 +17,26 @@ DB_USERNAME=**your_db_user**
 DB_PASSWORD=**password**
 ```
 
-2.Run the following command at the terminal
+2.Create laravel key
+```php
+$ php artisan key:generate
+
+```
+
+3.Run the following command at the terminal
 ```php
 $ php artisan crudbooster:install
 ```
 
-3.Run the following command at the terminal
+4.Run the following command at the terminal
 ```
 composer dump-autoload
+```
+
+5.Run seeder
+```php
+$ php artisan db:seed
+
 ```
 
 ### Backend URL
