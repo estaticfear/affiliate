@@ -11,6 +11,8 @@ class AdminBaoCaoController extends \crocodicstudio\crudbooster\controllers\CBCo
 
     public function cbInit()
     {
+        $this->campaign_status = config('general.campaign.status');
+        $this->campaign_status_color = config('general.campaign.status_color');
         $this->currency = Helper::getCurrency();
 
         # START CONFIGURATION DO NOT REMOVE THIS LINE
@@ -36,6 +38,11 @@ class AdminBaoCaoController extends \crocodicstudio\crudbooster\controllers\CBCo
         $this->col = [];
         $this->col[] = ["label" => "Ảnh", "name" => "campaign_id", "image" => true, "join" => "campaigns,thumbnail"];
         $this->col[] = ["label" => "Title", "name" => "campaign_id", "join" => "campaigns,title"];
+        $this->col[] = ["label" => "Trạng Thái", "name" => "status", "callback" => function ($row) {
+            $label = !empty($this->campaign_status[$row->status]) ? $this->campaign_status[$row->status] : $this->campaign_status[2];
+            $class = !empty($this->campaign_status_color[$row->status]) ? $this->campaign_status_color[$row->status] : $this->campaign_status_color[2];
+            return '<span class="' . $class . '">' . $label . '</span>';
+        }];
         $this->col[] = ["label" => "Thời Gian", "name" => "date_begin", "callback" => function ($row) {
             $date = date('d/m/y', strtotime($row->date_begin)) . ' - ' . date('d/m/y', strtotime($row->date_end));
             return $date;

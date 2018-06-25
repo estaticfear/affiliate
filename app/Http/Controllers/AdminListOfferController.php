@@ -77,7 +77,7 @@ class AdminListOfferController extends \crocodicstudio\crudbooster\controllers\C
         |
         */
         if (Helper::isPublisher())
-            $this->addaction[] = ['label' => 'Get Link', 'url' => CRUDBooster::mainpath('link/[id]'), 'icon' => 'fa fa-check', 'color' => 'success'];
+            $this->addaction[] = ['label' => 'Lấy Link', 'url' => CRUDBooster::mainpath('link/[id]'), 'icon' => 'fa fa-check', 'color' => 'success'];
 
 
         /*
@@ -332,7 +332,6 @@ class AdminListOfferController extends \crocodicstudio\crudbooster\controllers\C
 
     /**
      * @param $id : campaign id in campaigns table
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function getLink($id)
     {
