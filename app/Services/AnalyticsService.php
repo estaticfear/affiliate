@@ -1,24 +1,57 @@
 <?php
 
+namespace App\Services;
+
+use Google_Client;
+use Google_Service_AnalyticsReporting_Dimension;
+use Google_Service_AnalyticsReporting;
+use Google_Service_AnalyticsReporting_DateRange;
+use Google_Service_AnalyticsReporting_SegmentDefinition;
+use Google_Service_AnalyticsReporting_DynamicSegment;
+use Google_Service_AnalyticsReporting_SegmentDimensionFilter;
+use Google_Service_AnalyticsReporting_SegmentFilterClause;
+use Google_Service_AnalyticsReporting_OrFiltersForSegment;
+use Google_Service_AnalyticsReporting_SimpleSegment;
+use Google_Service_AnalyticsReporting_SegmentFilter;
+use Google_Service_AnalyticsReporting_Segment;
+use Google_Service_AnalyticsReporting_Metric;
+use Google_Service_AnalyticsReporting_OrderBy;
+use Google_Service_AnalyticsReporting_ReportRequest;
+use Google_Service_AnalyticsReporting_GetReportsRequest;
+
+
 class AnalyticsService
 {
+    private static $instance = null;
+
+    /**
+     * @return null
+     */
+    public static function getInstance()
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new AnalyticsService();
+        }
+        return self::$instance;
+    }
+
     private function initializeAnalytics()
     {
         $client = new Google_Client();
         $client->setApplicationName("Hello Analytics Reporting");
-        $client->setAuthConfig(realpath(dirname(__FILE__)) . '/../modeladmin/ndt-google-analytics.json');
+        $client->setAuthConfig(realpath(dirname(__FILE__)) . '/../../config/google-analytics.json');
         $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
         $analytics = new Google_Service_AnalyticsReporting($client);
         return $analytics;
     }
 
-    private function trucTest()
+    public function run()
     {
         $analytics = $this->initializeAnalytics();
         $response = $this->getReport($analytics);
-
+        echo '<pre>';print_r($response[0]['data']);echo '</pre>';die;
         // Print the response.
-        $this->printResults($response);
+//        $this->printResults($response);
     }
 
     /**
@@ -74,7 +107,7 @@ class AnalyticsService
     private function getReport()
     {
         $analytics = $this->initializeAnalytics();
-        $VIEW_ID = Configuration::getConfig('GoogleAnalyticsView');
+        $VIEW_ID = config('analytics.VIEW_ID');
 
         // Create the DateRange object.
         $dateRange = new Google_Service_AnalyticsReporting_DateRange();

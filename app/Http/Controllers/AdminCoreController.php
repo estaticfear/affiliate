@@ -4,6 +4,7 @@
 	use Request;
 	use DB;
 	use CRUDBooster;
+	use App\Services\AnalyticsService;
 
 	class AdminCoreController extends \crocodicstudio\crudbooster\controllers\CBController {
 
@@ -316,6 +317,11 @@
         public function getSeed()
         {
             die('Test');
+        }
+
+        public function getAnalytic()
+        {
+            AnalyticsService::getInstance()->run();
         }
 
 
